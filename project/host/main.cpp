@@ -1420,8 +1420,8 @@ int main(int argc, char** argv)
 	cleanup();
 
   t_all.stop();
-  t_all = t_all.get_time_s();
-  printf("overall time: %f", t_all);
+  time_all = t_all.get_time_s();
+  printf("overall time: %f", time_all);
 
 	return EXIT_SUCCESS;
 }
