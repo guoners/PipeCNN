@@ -304,7 +304,8 @@ int main(int argc, char** argv)
 	size_t knl_lrn_local_size[3];
 
 	Timer t;  // Timer used for performance measurement
-  Timer t_all; // Timer used for detailed profiling
+  Timer t_all; // Timer used for overall timing
+  Timer t_pro; // Timer used for detailed profiling
 	float time;
 
 	if (argc != 2){
@@ -319,6 +320,8 @@ int main(int argc, char** argv)
 	printf("***************************************************\n");
 	printf("PipeCNN: An OpenCL-Based FPGA Accelerator for CNNs \n");
 	printf("***************************************************\n");
+
+  t_pro.start();
 
 	// Connect to the desired platform
 	platform_id = findPlatform(vendor_name);
@@ -346,6 +349,9 @@ int main(int argc, char** argv)
 
 	// Create the program for all device. All devices execute the same kernel.
 	program = createProgramFromFile(context, (const char *) kernel_file_name, device, num_devices);
+  t_pro.stop();
+  float time_config = t_pro.get_time_s();
+  printf("config time: %f s\n", time_config);
 
 	// Create per-device objects.
 	que_memRd.reset(num_devices);
@@ -379,11 +385,18 @@ int main(int argc, char** argv)
 	eltwise_buf.reset(num_devices*MAX_BATCH_SIZE);
 #endif
 	// Prepare compute data
+
+  t_pro.start();
 	status = prepare();
 	if(status == 1){
 		printf("Allocate memory for data and weights failed !!!\n");
 		return false;
 	}
+  t_pro.stop();
+  float time_allo = t_pro.get_time_s();
+  printf("allocate time: %f s\n", time_allo);
+
+  t_pro.start();
 
 	// Create qeues, kernels and mem objs
 	for(unsigned i = 0; i < num_devices; ++i) {
@@ -605,6 +618,10 @@ int main(int argc, char** argv)
 #endif
 #endif
 
+  t_pro.stop();
+  float t_kernel_trans = t_pro.get_time_s();
+  printf("time for w/b trans: %f s\n", t_kernel_trans);
+
 	unsigned       iter_num;
 	unsigned short out_dim1xbatch;
 	unsigned int   out_dim1x2xbatch;
@@ -654,7 +671,7 @@ int main(int argc, char** argv)
 
     t.stop();
     time = t.get_time_s();
-    printf("loadImageToBuffer time: %f", time); 
+    printf("loadImageToBuffer time: %f\n", time); 
 
 		// Recorde the start time
 		t.start();
@@ -1421,7 +1438,7 @@ int main(int argc, char** argv)
 
   t_all.stop();
   float time_all = t_all.get_time_s();
-  printf("overall time: %f", time_all);
+  printf("overall time: %f\n s", time_all);
 
 	return EXIT_SUCCESS;
 }
