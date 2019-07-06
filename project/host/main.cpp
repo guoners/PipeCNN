@@ -1438,7 +1438,9 @@ int main(int argc, char** argv)
 
   t_all.stop();
   float time_all = t_all.get_time_s();
-  printf("overall time: %f\n s", time_all);
+  printf("overall time: %f s\n", time_all);
+
+  printf("running time: %f s\n", time_all - time_config);
 
 	return EXIT_SUCCESS;
 }
