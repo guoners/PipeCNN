@@ -643,7 +643,15 @@ int main(int argc, char** argv)
 		// Run PipeCNN for multiple input pictures
 		for (pic_num = 1; pic_num <=PICTURE_NUM; ++pic_num){
 #endif
+
+
+    t.start()
+
 		loadImageToBuffer(pic_num);
+
+    t.stop();
+    time = t.get_time_s();
+    printf("loadImageToBuffer time: %f", time); 
 
 		// Recorde the start time
 		t.start();
