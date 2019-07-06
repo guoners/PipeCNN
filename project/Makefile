@@ -121,7 +121,7 @@ ifeq ($(KERNEL_DEBUG),1)
 endif
 
 .PHONY: all
-all: host fpga
+all: host
 
 .PHONY: host
 host: $(HOST_EXE)
