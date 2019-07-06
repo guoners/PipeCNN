@@ -304,6 +304,7 @@ int main(int argc, char** argv)
 	size_t knl_lrn_local_size[3];
 
 	Timer t;  // Timer used for performance measurement
+  Timer t_all; // Timer used for detailed profiling
 	float time;
 
 	if (argc != 2){
@@ -311,6 +312,8 @@ int main(int argc, char** argv)
 	printf("%s <binaryfile>\n", argv[0]);
 	return EXIT_FAILURE;
 	}
+
+  t_all.start();
 
 
 	printf("***************************************************\n");
@@ -1415,6 +1418,10 @@ int main(int argc, char** argv)
 #endif
 	// Release resource
 	cleanup();
+
+  time_all.stop();
+  time_all = t_all.get_time_s();
+  printf("overall time: %f", time_all);
 
 	return EXIT_SUCCESS;
 }
