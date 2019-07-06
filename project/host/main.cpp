@@ -1420,7 +1420,7 @@ int main(int argc, char** argv)
 	cleanup();
 
   t_all.stop();
-  time_all = t_all.get_time_s();
+  float time_all = t_all.get_time_s();
   printf("overall time: %f", time_all);
 
 	return EXIT_SUCCESS;
