@@ -645,7 +645,7 @@ int main(int argc, char** argv)
 #endif
 
 
-    t.start()
+    t.start();
 
 		loadImageToBuffer(pic_num);
 
