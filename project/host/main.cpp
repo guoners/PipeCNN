@@ -1419,9 +1419,9 @@ int main(int argc, char** argv)
 	// Release resource
 	cleanup();
 
-  time_all.stop();
-  time_all = t_all.get_time_s();
-  printf("overall time: %f", time_all);
+  t_all.stop();
+  t_all = t_all.get_time_s();
+  printf("overall time: %f", t_all);
 
 	return EXIT_SUCCESS;
 }
